@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Zambia Lobito Railway | Connecting Africa to Global Markets</title>
+  <meta name="description" content="The Zambia Lobito Railway (ZLR) - 830km greenfield rail completing the Trans-African corridor from Chingola, Zambia to Luacano, Angola, connecting Southern Africa to the Atlantic via the Port of Lobito.">
+  <meta name="theme-color" content="#0a1628">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Russo+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css?v=95">
+  <link rel="icon" href="/favicon.ico?v=1" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png?v=1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png?v=1">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png?v=1">
+</head>
+<body class="page-home">
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="#top" class="logo" aria-label="Zambia Lobito Railway home">
+        <img class="logo-img" src="/assets/img/zlr-logo.png" alt="Zambia Lobito Railway">
+      </a>
+
+      <nav class="main-nav" id="mainNav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html" class="is-current" data-i18n="nav.home">Home</a></li>
+          <li><a href="overview.html?r=2" data-i18n="nav.overview">Project Overview</a></li>
+          <li><a href="impact.html" data-i18n="nav.impact">Impact</a></li>
+          <li><a href="about.html" data-i18n="nav.about">About</a></li>
+          <li><a href="updates.html" data-i18n="nav.updates">Updates</a></li>
+          <li><a href="contact.html?r=2" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-tools">
+        <div class="lang-toggle" role="group" aria-label="Language selection">
+          <button type="button" class="lang-btn is-active" data-lang="en" aria-pressed="true">EN</button>
+          <span class="lang-sep">/</span>
+          <button type="button" class="lang-btn" data-lang="pt" aria-pressed="false">PT</button>
+        </div>
+        <button type="button" class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero is-waiting">
+      <div class="hero-media" aria-hidden="true">
+        <video class="hero-video" id="heroVideo"
+               autoplay muted playsinline webkit-playsinline
+               preload="auto" disableRemotePlayback></video>
+      </div>
+      <div class="hero-tint" aria-hidden="true"
+           style="position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(10,22,40,.72) 0%,rgba(26,41,64,.65) 50%,rgba(41,82,159,.55) 100%);"></div>
+      <div class="hero-bg" aria-hidden="true" style="z-index:2;"></div>
+      <script>
+        (function () {
+          var v = document.getElementById('heroVideo');
+          if (!v) return;
+
+          // Pick the right source via JS — iOS Safari is unreliable with
+          // <source media="..."> on <video>, so set src directly.
+          var isMobile = window.matchMedia('(max-width: 768px)').matches;
+          v.src = isMobile
+            ? '/assets/video/zambiaangola.mp4'
+            : '/assets/video/zambiaangola.mp4';
+
+          // Mandatory for iOS autoplay
+          v.muted = true;
+          v.defaultMuted = true;
+          v.playsInline = true;
+          v.setAttribute('muted', '');
+          v.setAttribute('playsinline', '');
+          v.setAttribute('webkit-playsinline', '');
+
+          v.load();
+
+          var hero = v.closest('.hero');
+          var revealed = false;
+          var reveal = function () {
+            if (revealed || !hero) return;
+            revealed = true;
+            hero.classList.remove('is-waiting');
+          };
+
+          var playAttempts = 0;
+          var done = false; // video finished its run — never restart it
+          var tryPlay = function () {
+            if (done || v.ended) return;
+            playAttempts++;
+            var p;
+            try { p = v.play(); } catch (e) {}
+            if (p && typeof p.catch === 'function') {
+              p.catch(function () {
+                // Retry up to a few times — iOS sometimes needs a beat.
+                if (playAttempts < 6) setTimeout(tryPlay, 250 * playAttempts);
+                else setTimeout(reveal, 800);
+              });
+            }
+          };
+          tryPlay();
+          v.addEventListener('loadedmetadata', tryPlay, { once: true });
+          v.addEventListener('canplay', tryPlay);
+          v.addEventListener('canplaythrough', tryPlay);
+
+          // On mobile the video stops 1s before its real end; on desktop it
+          // plays through to the final frame. The reveal fires at the mobile
+          // stop point, or 1s before the end on desktop. Everything is driven
+          // by playback time (timeupdate) rather than wall-clock timers — on
+          // iOS playback can start well after load, which made timers fire
+          // mid-video and pause it in the wrong place.
+          var stopAt = isMobile ? 1 : 0;
+          v.addEventListener('timeupdate', function () {
+            if (!isFinite(v.duration) || v.duration <= 0) return;
+            if (v.currentTime >= v.duration - Math.max(stopAt, 1)) reveal();
+            if (stopAt > 0 && v.currentTime >= v.duration - stopAt) {
+              done = true;
+              if (!v.paused) v.pause();
+            }
+          });
+          v.addEventListener('ended', function () { done = true; });
+
+          // Safety nets in case playback never reaches the reveal point.
+          v.addEventListener('ended', reveal);
+          setTimeout(reveal, 15000);
+
+          // First user interaction unlocks playback on iOS in Low Power Mode.
+          var firstTouch = function () {
+            tryPlay();
+            document.removeEventListener('touchstart', firstTouch);
+            document.removeEventListener('touchend', firstTouch);
+            document.removeEventListener('click', firstTouch);
+          };
+          document.addEventListener('touchstart', firstTouch, { passive: true });
+          document.addEventListener('touchend',   firstTouch, { passive: true });
+          document.addEventListener('click',      firstTouch);
+
+          // Re-attempt when the page returns to the foreground.
+          document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'visible' && v.paused) tryPlay();
+          });
+        })();
+      </script>
+      <div class="container hero-inner" style="position:relative;z-index:3;">
+        <h1 class="hero-logo-h1 anim-up" style="--d:.1s"><img class="hero-logo" src="/assets/img/zlr-logo.svg" alt="Zambia Lobito Railway"></h1>
+        <p class="hero-eyebrow anim-up" style="--d:.3s" data-i18n="hero.eyebrow">Built for Africa. Connecting the World.</p>
+        <p class="hero-lead anim-up" style="--d:.5s" data-i18n="hero.lead">The Project is a c. 830 km greenfield rail line connecting Zambia's Copperbelt to the Port of Lobito on the Atlantic coast.</p>
+        <div class="hero-cta anim-up" style="--d:.85s">
+          <a href="overview.html?r=2" class="btn btn-primary" data-i18n="hero.cta1">Discover the Project</a>
+          <a href="overview.html?r=2" class="btn btn-ghost" data-i18n="hero.cta2">View Project Status</a>
+        </div>
+      </div>
+      <div class="hero-scroll" aria-hidden="true">
+        <span></span>
+      </div>
+    </section>
+
+    <!-- ============ KEY STATS ============ -->
+    <section class="stats" aria-label="Key project statistics">
+      <div class="container">
+        <ul class="stats-grid">
+          <li class="stat">
+            <span class="stat-num"><span class="counter" data-count="830" data-decimals="0">0</span><small>km</small></span>
+            <span class="stat-label" data-i18n="stats.km">Greenfield rail</span>
+          </li>
+          <li class="stat">
+            <span class="stat-num"><span class="counter" data-count="7" data-decimals="0">0</span><small>days</small></span>
+            <span class="stat-label" data-i18n="stats.transit">Transit to Port of Lobito</span>
+          </li>
+          <li class="stat">
+            <span class="stat-num"><span class="counter" data-count="2" data-decimals="0">0</span><small>Mt</small></span>
+            <span class="stat-label" data-i18n="stats.freight">Freight per annum by 2031</span>
+          </li>
+          <li class="stat">
+            <span class="stat-num"><span class="counter" data-count="3" data-decimals="0" data-prefix="$">$0</span><small>bn</small></span>
+            <span class="stat-label" data-i18n="stats.benefits">Net economic benefits</span>
+          </li>
+        </ul>
+        <ul class="cargo-tags" aria-label="Primary cargo">
+          <li data-i18n="cargo.mining">Mining &amp; Critical Minerals</li>
+          <li data-i18n="cargo.agri">Agriculture</li>
+          <li data-i18n="cargo.petro">Petroleum</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ PROJECT OVERVIEW ============ -->
+    <section class="section section-overview section-overview--interactive" id="overview">
+      <div class="container">
+        <div class="overview-header">
+          <p class="eyebrow" data-i18n="overview.eyebrow">Project Overview</p>
+          <h2 data-i18n="overview.title">Completing the Trans-African Rail Corridor</h2>
+          <p class="overview-intro" data-i18n="overview.intro">Hover any station to explore the corridor. The 830km railways line under development connects the existing Benguela railway in Angola to Zambia's Copperbelt - bridging the Atlantic and Indian Oceans.</p>
+        </div>
+
+        <div class="map-stage" id="mapStage">
+          <svg class="map-svg" viewBox="0 0 1200 680" role="img" aria-labelledby="mapTitleA" preserveAspectRatio="xMidYMid meet">
+            <title id="mapTitleA">Interactive corridor map from Lobito to Dar es Salaam</title>
+            <defs>
+              <radialGradient id="mapGlow" cx="50%" cy="50%" r="60%">
+                <stop offset="0%" stop-color="#1c2e4d" stop-opacity="1"/>
+                <stop offset="100%" stop-color="#0a1628" stop-opacity="1"/>
+              </radialGradient>
+              <linearGradient id="zlrGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#fcc00c"/>
+                <stop offset="50%" stop-color="#ffd84a"/>
+                <stop offset="100%" stop-color="#fcc00c"/>
+              </linearGradient>
+              <filter id="pulseGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="6" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <filter id="stationGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="4" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- Backdrop -->
+            <rect width="1200" height="680" fill="url(#mapGlow)"/>
+
+            <!-- Subtle latitude/longitude lines for atlas feel -->
+            <g class="map-grid" stroke="#1c2e4d" stroke-width="1" opacity="0.45">
+              <line x1="0" y1="180" x2="1200" y2="180"/>
+              <line x1="0" y1="340" x2="1200" y2="340"/>
+              <line x1="0" y1="500" x2="1200" y2="500"/>
+              <line x1="240" y1="0" x2="240" y2="680"/>
+              <line x1="480" y1="0" x2="480" y2="680"/>
+              <line x1="720" y1="0" x2="720" y2="680"/>
+              <line x1="960" y1="0" x2="960" y2="680"/>
+            </g>
+
+            <!-- Stylised southern Africa with detailed coastline -->
+            <g class="map-land">
+              <!-- Bathymetry halo - coastal water glow -->
+              <path d="M 178 170
+                       C 215 145, 290 138, 360 148
+                       C 440 158, 520 145, 600 156
+                       C 690 168, 775 162, 855 178
+                       C 905 192, 945 208, 970 226
+                       L 985 240
+                       C 1000 252, 1010 268, 1018 285
+                       C 1028 305, 1030 325, 1028 348
+                       C 1035 370, 1048 395, 1052 428
+                       C 1055 462, 1042 488, 1024 510
+                       C 1018 528, 1020 548, 1014 568
+                       C 1004 588, 985 600, 962 608
+                       C 920 622, 870 632, 820 636
+                       C 760 640, 700 638, 642 632
+                       C 590 626, 540 615, 495 600
+                       C 455 588, 420 575, 390 560
+                       C 360 542, 338 522, 320 500
+                       C 302 478, 290 458, 282 438
+                       C 268 420, 250 405, 232 388
+                       C 215 368, 205 345, 200 322
+                       C 195 302, 198 285, 195 268
+                       C 190 248, 195 228, 200 208
+                       C 200 192, 188 180, 178 170 Z"
+                    fill="#0e1f3c" opacity="0.7"/>
+
+              <!-- Main continent with irregular coastline
+                   (NW corner → DRC north → Tanzania → Mozambique → Cape → Namibia → back) -->
+              <path d="M 195 178
+                       C 225 162, 280 152, 345 158
+                       Q 380 162, 410 156
+                       C 460 154, 520 152, 580 162
+                       Q 620 168, 660 164
+                       C 710 168, 770 168, 825 184
+                       Q 855 195, 880 205
+                       L 905 222
+                       Q 925 240, 945 258
+                       Q 965 280, 980 305
+                       C 998 332, 1015 358, 1020 385
+                       Q 1020 408, 1010 425
+                       L 1000 445
+                       Q 998 470, 1005 490
+                       C 1010 510, 1008 528, 998 542
+                       Q 985 558, 968 568
+                       C 940 580, 905 590, 870 596
+                       Q 820 605, 770 605
+                       C 720 605, 670 600, 625 590
+                       Q 575 580, 530 568
+                       L 490 552
+                       C 455 538, 425 522, 400 502
+                       Q 380 485, 365 465
+                       C 348 442, 332 422, 318 400
+                       Q 305 380, 295 358
+                       C 282 335, 265 318, 252 295
+                       Q 240 270, 235 250
+                       L 232 232
+                       C 230 218, 225 205, 218 195
+                       Q 208 185, 195 178 Z"
+                    fill="#142745" stroke="#3a557e" stroke-width="1.8"/>
+
+              <!-- Cabinda enclave + Congo river mouth indent -->
+              <path d="M 232 232 L 226 222 L 234 226 Z" fill="#0e1f3c"/>
+
+              <!-- Walvis Bay indent -->
+              <path d="M 365 465 Q 370 458, 378 462 Q 374 472, 365 465 Z" fill="#0e1f3c" opacity="0.8"/>
+
+              <!-- Inhambane / Mozambique channel bay -->
+              <path d="M 1000 445 Q 992 455, 998 470 Q 1006 462, 1000 445 Z" fill="#0e1f3c" opacity="0.8"/>
+
+              <!-- Angola region tint (Angola/DRC) -->
+              <path d="M 195 178
+                       C 225 162, 280 152, 345 158
+                       C 460 154, 530 156, 500 220
+                       L 490 552
+                       C 455 538, 425 522, 400 502
+                       Q 380 485, 365 465
+                       C 348 442, 332 422, 318 400
+                       Q 305 380, 295 358
+                       C 282 335, 265 318, 252 295
+                       Q 240 270, 235 250
+                       L 232 232
+                       C 230 218, 225 205, 218 195
+                       Q 208 185, 195 178 Z"
+                    fill="#1a2f52" opacity="0.5"/>
+
+              <!-- Tanzania / East Africa tint -->
+              <path d="M 825 184
+                       Q 855 195, 880 205
+                       L 905 222
+                       Q 925 240, 945 258
+                       Q 965 280, 980 305
+                       C 998 332, 1015 358, 1020 385
+                       Q 1020 408, 1010 425
+                       L 825 425 Z"
+                    fill="#1a2f52" opacity="0.45"/>
+
+              <!-- Madagascar -->
+              <path d="M 1075 388
+                       C 1083 400, 1090 425, 1090 460
+                       C 1090 490, 1082 510, 1070 515
+                       C 1058 510, 1056 488, 1058 460
+                       C 1060 430, 1066 405, 1075 388 Z"
+                    fill="#142745" stroke="#3a557e" stroke-width="1.3"/>
+              <text class="topo-label" x="1100" y="465">MADAGASCAR</text>
+
+              <!-- Comoros / Zanzibar (small offshore islands) -->
+              <circle cx="1018" cy="295" r="2.5" fill="#142745" stroke="#3a557e" stroke-width="0.8"/>
+              <circle cx="1014" cy="305" r="1.8" fill="#142745" stroke="#3a557e" stroke-width="0.8"/>
+              <circle cx="1040" cy="370" r="2" fill="#142745" stroke="#3a557e" stroke-width="0.8"/>
+              <circle cx="1048" cy="380" r="1.5" fill="#142745" stroke="#3a557e" stroke-width="0.8"/>
+            </g>
+
+            <!-- ============ TOPOGRAPHY LAYER ============ -->
+            <g class="map-topography" pointer-events="none">
+              <!-- Subtle elevation tint (lower elevation = darker centre) -->
+              <ellipse cx="620" cy="395" rx="430" ry="160" fill="#0c1d39" opacity="0.5"/>
+
+              <!-- Rivers - Congo basin headwaters (north) -->
+              <path class="topo-river"
+                    d="M 260 235 Q 380 218, 510 230 Q 640 240, 780 222 Q 880 215, 980 228"
+                    stroke="#5d8dc4" stroke-width="2" stroke-dasharray="2 4" fill="none" opacity="0.55"/>
+              <text class="topo-label" x="970" y="218" text-anchor="end">CONGO BASIN</text>
+
+              <!-- Rivers - Zambezi watershed (south) -->
+              <path class="topo-river"
+                    d="M 290 530 Q 460 512, 620 528 Q 800 542, 960 550"
+                    stroke="#5d8dc4" stroke-width="2" stroke-dasharray="2 4" fill="none" opacity="0.55"/>
+              <text class="topo-label" x="950" y="568" text-anchor="end">ZAMBEZI R.</text>
+
+              <!-- Kafue tributary into corridor -->
+              <path class="topo-river"
+                    d="M 660 525 Q 680 470, 685 405"
+                    stroke="#5d8dc4" stroke-width="1.4" stroke-dasharray="2 4" fill="none" opacity="0.45"/>
+
+              <!-- Mountains - Angolan Highlands -->
+              <g class="topo-mountains" fill="none" stroke="#4a608a" stroke-width="1.3" stroke-linejoin="round" opacity="0.65">
+                <polyline points="295,277 304,261 313,277 322,267 331,277 340,263 349,277 358,269 367,277"/>
+                <polyline points="306,287 315,272 324,287 333,277 342,287"/>
+              </g>
+              <text class="topo-label" x="365" y="294">ANGOLAN HIGHLANDS</text>
+
+              <!-- Mountains - Muchinga (Zambia) -->
+              <g class="topo-mountains" fill="none" stroke="#4a608a" stroke-width="1.3" stroke-linejoin="round" opacity="0.65">
+                <polyline points="700,468 709,452 718,468 727,456 736,468 745,452 754,468 763,456 772,468"/>
+                <polyline points="712,478 721,462 730,478 739,468 748,478"/>
+              </g>
+              <text class="topo-label" x="736" y="498" text-anchor="middle">MUCHINGA MOUNTAINS</text>
+
+              <!-- Mountains - Eastern Rift (Tanzania) -->
+              <g class="topo-mountains" fill="none" stroke="#4a608a" stroke-width="1.3" stroke-linejoin="round" opacity="0.6">
+                <polyline points="920,302 929,286 938,302 947,290 956,302 965,288 974,302 983,292 992,302"/>
+              </g>
+              <text class="topo-label" x="956" y="318" text-anchor="middle">EASTERN RIFT</text>
+
+              <!-- Coastal hint marks (Atlantic) -->
+              <g opacity="0.35" stroke="#5d8dc4" stroke-width="1" fill="none">
+                <path d="M 165 350 Q 175 360, 168 370"/>
+                <path d="M 158 400 Q 168 410, 161 420"/>
+                <path d="M 168 450 Q 178 460, 171 470"/>
+              </g>
+              <!-- Coastal hint marks (Indian) -->
+              <g opacity="0.35" stroke="#5d8dc4" stroke-width="1" fill="none">
+                <path d="M 1030 350 Q 1040 360, 1033 370"/>
+                <path d="M 1040 400 Q 1050 410, 1043 420"/>
+                <path d="M 1030 450 Q 1040 460, 1033 470"/>
+              </g>
+            </g>
+
+            <!-- Country labels - repositioned to lower band as watermarks -->
+            <text class="map-country" x="330" y="560" text-anchor="middle">ANGOLA</text>
+            <text class="map-country" x="620" y="580" text-anchor="middle">ZAMBIA</text>
+            <text class="map-country" x="940" y="560" text-anchor="middle">TANZANIA</text>
+
+            <!-- Ocean labels - moved to top so they don't compete with stations -->
+            <text class="map-ocean" x="80" y="160">ATLANTIC</text>
+            <text class="map-ocean" x="80" y="188">OCEAN</text>
+            <text class="map-ocean" x="1130" y="160" text-anchor="end">INDIAN</text>
+            <text class="map-ocean" x="1130" y="188" text-anchor="end">OCEAN</text>
+
+            <!-- Rail lines (drawn in via stroke-dashoffset animation) -->
+            <path d="M 180 340 Q 290 338, 400 340" stroke="#be1622" stroke-width="4" stroke-dasharray="10 10" fill="none" stroke-linecap="round"/>
+            <path id="lineZLR" d="M 400 340 Q 550 344, 700 352" stroke="url(#zlrGrad)" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <path d="M 700 352 Q 800 358, 900 362" stroke="#c2cbd8" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M 900 362 Q 980 368, 1060 375" stroke="#008e39" stroke-width="4" stroke-dasharray="10 10" fill="none" stroke-linecap="round"/>
+
+            <!-- ZLR distance badge -->
+            <g class="zlr-badge" transform="translate(550 290)">
+              <rect x="-78" y="-22" width="156" height="44" rx="22" fill="#fcc00c"/>
+              <text x="0" y="6" text-anchor="middle" class="zlr-badge-text">ZLR · 830 KM</text>
+            </g>
+
+            <!-- Animated pulse travelling along the ZLR corridor -->
+            <circle r="9" fill="#fff" filter="url(#pulseGlow)">
+              <animateMotion dur="3.4s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#lineZLR"/>
+              </animateMotion>
+              <animate attributeName="opacity" values="0;1;1;1;0" dur="3.4s" repeatCount="indefinite"/>
+            </circle>
+            <circle r="4" fill="#fcc00c">
+              <animateMotion dur="3.4s" repeatCount="indefinite">
+                <mpath href="#lineZLR"/>
+              </animateMotion>
+            </circle>
+
+            <!-- Stations (interactive) -->
+                                    <g class="stations">
+              <g class="station station--port" data-key="lobito" tabindex="0" role="button" aria-label="Lobito station">
+                <circle cx="180" cy="340" r="12" fill="none" stroke="#be1622" stroke-width="2.5"><animate attributeName="r" values="12;32" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.85;0" dur="2.2s" repeatCount="indefinite"/></circle>
+                <circle class="station-dot" cx="180" cy="340" r="9" fill="#be1622" filter="url(#stationGlow)"/>
+                <text class="station-label" x="180" y="305" text-anchor="middle">LOBITO</text>
+                <text class="station-sub" x="180" y="375" text-anchor="middle">Lobito Port</text>
+              </g>
+              <g class="station" data-key="luacano" tabindex="0" role="button" aria-label="Luacano station">
+                <circle cx="400" cy="340" r="11" fill="none" stroke="#fcc00c" stroke-width="2.5"><animate attributeName="r" values="11;30" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.85;0" dur="2.2s" repeatCount="indefinite"/></circle>
+                <circle class="station-dot" cx="400" cy="340" r="8" fill="#fcc00c" filter="url(#stationGlow)"/>
+                <text class="station-label" x="400" y="310" text-anchor="middle">LUACANO</text>
+              </g>
+              <g class="station-marker" aria-hidden="true">
+                <line x1="500" y1="314" x2="500" y2="374" stroke="#fcc00c" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.7"/>
+                <circle cx="500" cy="344" r="5" fill="#0a1628" stroke="#fcc00c" stroke-width="2"/>
+                <text class="station-label station-label--small" x="500" y="394" text-anchor="middle" fill="#fcc00c">JIMBE</text>
+                <text class="station-sub" x="500" y="410" text-anchor="middle">Angola · Zambia border</text>
+              </g>
+              <g class="station station--port" data-key="chingola" tabindex="0" role="button" aria-label="Chingola station">
+                <circle cx="700" cy="352" r="11" fill="none" stroke="#fcc00c" stroke-width="2.5"><animate attributeName="r" values="11;30" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.85;0" dur="2.2s" repeatCount="indefinite"/></circle>
+                <circle class="station-dot" cx="700" cy="352" r="8" fill="#fcc00c" filter="url(#stationGlow)"/>
+                <text class="station-label" x="700" y="382" text-anchor="middle">CHINGOLA</text>
+                <text class="station-sub" x="700" y="400" text-anchor="middle">Copperbelt</text>
+              </g>
+              <g class="station station--port" data-key="dar" tabindex="0" role="button" aria-label="Dar es Salaam station">
+                <circle class="station-halo" cx="1060" cy="375" r="20"/>
+                <circle class="station-ring" cx="1060" cy="375" r="13" fill="none" stroke="#008e39" stroke-width="2"/>
+                <circle class="station-dot" cx="1060" cy="375" r="8" fill="#008e39"/>
+                <text class="station-label" x="1060" y="343" text-anchor="middle">DAR ES SALAAM</text>
+                <text class="station-sub" x="1060" y="413" text-anchor="middle">Indian Ocean Port</text>
+              </g>
+            </g>
+          </svg>
+
+          <!-- Info card revealed when a station is selected -->
+          <div class="map-info" id="mapInfo" hidden role="status" aria-live="polite">
+            <button class="map-info-close" id="mapInfoClose" aria-label="Close station info">×</button>
+            <p class="map-info-eyebrow" id="mapInfoEyebrow">Station</p>
+            <h3 class="map-info-title" id="mapInfoTitle">-</h3>
+            <p class="map-info-body" id="mapInfoBody">-</p>
+          </div>
+
+          <!-- Annotations -->
+          <div class="map-ann map-ann--lead" aria-hidden="true">
+            <span class="map-ann__label" data-i18n="ann.lead.label">Lead Developer</span>
+            <span class="map-ann__value" data-i18n="ann.lead.value">Africa Finance Corporation (AFC)</span>
+          </div>
+
+          <!-- Legend -->
+          <div class="map-legend" aria-hidden="false">
+            <div class="legend-item">
+              <span class="legend-swatch legend-swatch--zlr"></span>
+              <span data-i18n="overview.legend.zlr">ZLR - new corridor (830 km)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch legend-swatch--benguela"></span>
+              <span data-i18n="overview.legend.benguela">Benguela Railway - existing</span>
+            </div>
+                        <div class="legend-item">
+              <span class="legend-swatch legend-swatch--zambiarail"></span>
+              <span data-i18n="overview.legend.zambiarail">Zambia Railways - existing</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch legend-swatch--zambia"></span>
+              <span data-i18n="overview.legend.zambia">Tazara Railway - existing</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="map-hint" data-i18n="overview.hint">
+          <span class="dot"></span> Click any station for more detail <span class="dot"></span>
+        </p>
+
+        <div class="overview-body">
+          <div class="overview-body__col">
+            <h3 class="overview-body__title" data-i18n="overview.bodyTitle">The Zambia Lobito Railway (ZLR)</h3>
+            <p data-i18n="overview.p1">
+              The Zambia Lobito Railway (ZLR) is a c.830km greenfield rail line from Chingola, Zambia to Luacano in Angola, connecting to the existing Benguela line and the Zambia Railways network - thereby completing the Trans-African rail corridor.
+            </p>
+            <p data-i18n="overview.p2">
+              This AFC-led development will establish a critical trade route for copper, critical minerals, agricultural products, petroleum and general cargo, connecting inland Southern African countries to international markets via the Port of Lobito on the Atlantic coast. The development is set to reduce transit times to 7 days, down from up to 16 days via alternative corridors.
+            </p>
+          </div>
+          <div class="overview-body__visual">
+            <img src="/images/train3.png" alt="Zambia Lobito Railway locomotive" loading="lazy">
+          </div>
+        </div>
+
+        <div class="section-cta">
+          <a href="overview.html?r=2" class="btn btn-primary" data-i18n="cta.overview">Explore the Project Overview →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROJECT STATUS ============ -->
+    <section class="section section-status" id="status">
+      <div class="container">
+        <p class="eyebrow" data-i18n="status.eyebrow">Project Status</p>
+        <h2 data-i18n="status.title">Milestones &amp; Delivery Roadmap</h2>
+        <p class="section-lead" data-i18n="status.lead">
+          Key milestones achieved to date include the completion of comprehensive feasibility studies and environmental and social scoping studies. Below is the full roadmap to financial close in Q4 2027.
+        </p>
+
+        <div class="timeline">
+          <div class="timeline-group timeline-group--completed">
+            <h3 class="timeline-status" data-i18n="status.completed">Completed</h3>
+            <ul>
+              <li><span class="t-date">Sep 2024</span><span class="t-event" data-i18n="ms.feas">Feasibility study completed</span></li>
+              <li><span class="t-date">Sep 2024</span><span class="t-event" data-i18n="ms.conc">Concession agreements signed</span></li>
+              <li><span class="t-date" data-i18n="ms.scope-date">2024–25</span><span class="t-event" data-i18n="ms.scope">Approval of E&amp;S Scoping studies</span></li>
+              <li><span class="t-date">Apr 2025</span><span class="t-event" data-i18n="ms.iga">Intergovernmental Agreement executed</span></li>
+            </ul>
+          </div>
+          <div class="timeline-group timeline-group--completed">
+            <h3 class="timeline-status" data-i18n="status.completed">Completed</h3>
+            <ul>
+              <li><span class="t-date">Oct 2025</span><span class="t-event" data-i18n="ms.cp">Satisfaction of Stage 1 CP under the Zambia Concession Agreement</span></li>
+              <li><span class="t-date">Apr 2026</span><span class="t-event" data-i18n="ms.esia">Completion of ESIA, RAP (incl. BAP &amp; SEP)</span> <a class="t-link" href="esia.html" data-i18n="ms.esia.link">View disclosure →</a></li>
+              <li><span class="t-date">2026</span><span class="t-event" data-i18n="ms.valuation">Completion of valuation exercise &amp; execution of consent forms with PAPs</span></li>
+              <li><span class="t-date">May 2026</span><span class="t-event" data-i18n="ms.afdb">AfDB Board Approval of an initial tranche of funding</span></li>
+            </ul>
+          </div>
+          <div class="timeline-group timeline-group--ongoing">
+            <h3 class="timeline-status" data-i18n="status.ongoing">Ongoing</h3>
+            <ul>
+              <li><span class="t-date">Q3 2026</span><span class="t-event" data-i18n="ms.epc">EPC contractor selection</span></li>
+              <li><span class="t-date">Q4 2027</span><span class="t-event" data-i18n="ms.mou">Signed MoUs for rail usage (c. 1 million tonnes)</span></li>
+              <li><span class="t-date">Q4 2027</span><span class="t-event" data-i18n="ms.integration">Integration with existing infrastructure</span></li>
+            </ul>
+          </div>
+          <div class="timeline-group timeline-group--scheduled">
+            <h3 class="timeline-status" data-i18n="status.scheduled">Scheduled</h3>
+            <ul>
+              <li><span class="t-date">Q3 2026</span><span class="t-event" data-i18n="ms.equity">Commencement of financing process</span></li>
+              <li><span class="t-date">Q1 2027</span><span class="t-event" data-i18n="ms.om">O&amp;M contractor selection</span></li>
+              <li><span class="t-date">Q2 2027 – Q2 2028</span><span class="t-event" data-i18n="ms.demine">De-mining activities in Angola</span></li>
+              <li><span class="t-date">Q4 2027</span><span class="t-event" data-i18n="ms.fc">Financial close</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Route Map -->
+        <div class="route-map">
+          <h3 data-i18n="status.routeTitle">Route Map - Chingola to Luacano</h3>
+          <svg viewBox="0 0 1200 320" class="route-svg" role="img" aria-label="Corridor route from Luacano through Zambia to Dar es Salaam" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="terrain" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#1a2940"/><stop offset="100%" stop-color="#0a1628"/>
+              </linearGradient>
+              <filter id="routeGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <rect width="1200" height="320" fill="url(#terrain)"/>
+            <line class="route-divider" x1="113" y1="22" x2="113" y2="232" stroke="#fcc00c" stroke-width="1.5" stroke-dasharray="4 5" opacity="0.55"/>
+            <text x="113" y="250" class="route-border" text-anchor="middle">JIMBE · border</text>
+            <line class="route-divider" x1="1058" y1="22" x2="1058" y2="210" stroke="#fff" stroke-width="1" stroke-dasharray="4 6" opacity="0.3"/>
+            <text x="80" y="36" class="route-country">ANGOLA</text>
+            <text x="560" y="36" class="route-country">ZAMBIA</text>
+            <text x="1110" y="36" class="route-country" text-anchor="end">TANZANIA</text>
+            <path id="routeRail" d="M 70 180 L 844 135" stroke="#fcc00c" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M 844 135 L 1016 125" stroke="#c2cbd8" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M 1016 125 L 1100 120" stroke="#008e39" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="9 7"/>
+            <g class="stations"><g class="rs"><circle cx="70" cy="180" r="5" fill="#fff"/><text x="70" y="206" class="route-station" text-anchor="middle">Luacano</text><text x="70" y="222" class="route-sub" text-anchor="middle">Benguela → Lobito</text></g><g class="rs"><circle cx="156" cy="175" r="5" fill="#fff"/><text x="156" y="159" class="route-station" text-anchor="middle">Kanongesha</text></g><g class="rs"><circle cx="242" cy="170" r="5" fill="#fff"/><text x="242" y="196" class="route-station" text-anchor="middle">Mwinilunga</text></g><g class="rs"><circle cx="328" cy="165" r="5" fill="#fff"/><text x="328" y="149" class="route-station" text-anchor="middle">Kalumbila</text></g><g class="rs"><circle cx="414" cy="160" r="5" fill="#fff"/><text x="414" y="186" class="route-station" text-anchor="middle">Chisasa</text></g><g class="rs"><circle cx="500" cy="155" r="5" fill="#fff"/><text x="500" y="139" class="route-station" text-anchor="middle">Lumwana</text></g><g class="rs"><circle cx="586" cy="150" r="5" fill="#fff"/><text x="586" y="176" class="route-station" text-anchor="middle">Manyama</text></g><g class="rs"><circle cx="672" cy="145" r="5" fill="#fff"/><text x="672" y="129" class="route-station" text-anchor="middle">Solwezi</text></g><g class="rs"><circle cx="758" cy="140" r="5" fill="#fff"/><text x="758" y="166" class="route-station" text-anchor="middle">Kashamata</text></g><g class="rs"><circle cx="844" cy="135" r="11" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/><circle cx="844" cy="135" r="7" fill="#fff"/><text x="844" y="119" class="route-station" text-anchor="middle">Chingola</text></g><g class="rs"><circle cx="930" cy="130" r="5" fill="#fff"/><text x="930" y="156" class="route-station" text-anchor="middle">Ndola</text></g><g class="rs"><circle cx="1016" cy="125" r="11" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/><circle cx="1016" cy="125" r="7" fill="#fff"/><text x="1016" y="109" class="route-station" text-anchor="middle">Kapiri Mposhi</text></g><g class="rs"><circle cx="1100" cy="120" r="5" fill="#fff"/><text x="1100" y="146" class="route-station" text-anchor="middle">Dar es Salaam</text><text x="1100" y="162" class="route-sub" text-anchor="middle">Indian Ocean</text></g></g>
+            <g class="route-pulse">
+              <circle r="7" fill="#fff" filter="url(#routeGlow)"><animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto"><mpath href="#routeRail"/></animateMotion><animate attributeName="opacity" values="0;1;1;1;0" dur="3.6s" repeatCount="indefinite"/></circle>
+              <circle r="3.5" fill="#fcc00c"><animateMotion dur="3.6s" repeatCount="indefinite"><mpath href="#routeRail"/></animateMotion></circle>
+            </g>
+            <text x="430" y="232" class="route-distance" text-anchor="middle">c. 830 km greenfield rail</text>
+            <g class="route-legend" transform="translate(24,286)"><line x1="0" y1="0" x2="26" y2="0" stroke="#fcc00c" stroke-width="4" stroke-linecap="round"/><text x="34" y="4" class="route-legend-t">ZLR – new corridor</text><line x1="200" y1="0" x2="226" y2="0" stroke="#c2cbd8" stroke-width="4" stroke-linecap="round"/><text x="234" y="4" class="route-legend-t">Zambia Railways</text><line x1="384" y1="0" x2="410" y2="0" stroke="#008e39" stroke-width="4" stroke-linecap="round"/><text x="418" y="4" class="route-legend-t">Tazara</text></g>
+          </svg>
+        </div>
+
+        <!-- Sub-cards: ESIA + Tenders -->
+        <div class="status-cards">
+          <article class="card card-esia">
+            <h3 data-i18n="esia.title">ESIA Disclosure</h3>
+            <p data-i18n="esia.lead">
+              The full Environmental and Social Impact Assessment (ESIA) and Resettlement Action Plan (RAP) are being undertaken by Insuco.
+            </p>
+            <a href="esia.html" class="btn btn-link" data-i18n="esia.cta">Read disclosure →</a>
+          </article>
+
+          <article class="card card-tender">
+            <h3 data-i18n="tender.title">EPC Tender for the Zambia Lobito Railway</h3>
+            <p class="tender-desc" data-i18n="tender.desc">
+              EPC tender across three strategic components: <strong>Lot 1a</strong> Civils &amp; Plate Laying (Angola), <strong>Lot 1b</strong> Civils &amp; Plate Laying (Zambia), <strong>Lot 2</strong> Signalling, Systems &amp; Rolling Stock.
+            </p>
+            <a href="contact.html?r=2" class="btn btn-link" data-i18n="tender.cta">Tender enquiries →</a>
+          </article>
+        </div>
+        <div class="section-cta">
+          <a href="overview.html?r=2" class="btn btn-primary" data-i18n="cta.status">View Full Project Status →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ IMPACT ============ -->
+    <section class="section section-impact" id="impact">
+      <div class="container">
+        <p class="eyebrow" data-i18n="impact.eyebrow">Project Impact</p>
+        <h2 data-i18n="impact.title">A Catalyst for Regional Trade and Growth</h2>
+
+        <div class="section-cta">
+          <a href="impact.html" class="btn btn-primary" data-i18n="cta.impact">Read More on Impact →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section section-about" id="about">
+      <div class="container">
+        <p class="eyebrow" data-i18n="about.eyebrow">About ZLR</p>
+        <h2 data-i18n="about.title">Project Sponsor</h2>
+
+        <!-- Sponsor: AFC -->
+        <div class="sponsor">
+          <div class="sponsor-head">
+            <h3 data-i18n="about.sponsorTitle">Project Sponsor - Africa Finance Corporation</h3>
+            <p data-i18n="about.sponsorLead">
+              The Africa Finance Corporation (AFC) serves as lead developer for the ZLR project, in partnership with the Governments of Zambia and Angola. Established in 2007 as a Public Private Partnership of sovereign African states, AFC has an investment footprint across 36 African countries with 43 African member states plus 3 multilateral members.
+            </p>
+          </div>
+          <ul class="kpi-grid">
+            <li><span class="kpi-num">AAA</span><span class="kpi-label">Moody's Rating</span></li>
+            <li><span class="kpi-num">A / A-1</span><span class="kpi-label">S&amp;P Rating</span></li>
+            <li><span class="kpi-num">$<span class="counter" data-count="14.4" data-decimals="1">0.0</span><small>bn</small></span><span class="kpi-label" data-i18n="about.kpi.assets">Total Assets</span></li>
+            <li><span class="kpi-num">$<span class="counter" data-count="3.9" data-decimals="1">0.0</span><small>bn</small></span><span class="kpi-label" data-i18n="about.kpi.equity">Total Equity</span></li>
+            <li><span class="kpi-num"><span class="counter" data-count="194" data-decimals="0">0</span><small>%</small></span><span class="kpi-label" data-i18n="about.kpi.lcr">Liquidity Coverage Ratio</span></li>
+            <li><span class="kpi-num"><span class="counter" data-count="33.6" data-decimals="1">0.0</span><small>%</small></span><span class="kpi-label" data-i18n="about.kpi.car">Capital Adequacy Ratio</span></li>
+          </ul>
+          <p class="sponsor-foot" data-i18n="about.sponsorFoot">
+            AFC maintains preferred creditor status, immunities and tax exemptions among member states. Cumulative disbursement exceeds <strong>US$13.2 billion</strong> across the continent.
+          </p>
+        </div>
+
+        <!-- Latest News (moved under sponsor) -->
+        <div class="section-updates" id="updates">
+          <p class="eyebrow" data-i18n="updates.eyebrow">Project Updates</p>
+          <h2 data-i18n="updates.title">Latest News</h2>
+          <div class="news-grid" id="newsGrid">
+            <article class="news-card">
+              <span class="news-date">April 2025</span>
+              <h3 data-i18n="news.iga.title">Intergovernmental Agreement Signed</h3>
+              <p data-i18n="news.iga.body">Zambia and Angola formally executed the Intergovernmental Agreement, marking a critical step toward the development of the ZLR corridor.</p>
+            </article>
+            <article class="news-card">
+              <span class="news-date">September 2024</span>
+              <h3 data-i18n="news.conc.title">Concession Agreements Executed</h3>
+              <p data-i18n="news.conc.body">Concession Agreements signed with both governments, providing the legal framework for the 830km greenfield rail corridor.</p>
+            </article>
+            <article class="news-card">
+              <span class="news-date">September 2024</span>
+              <h3 data-i18n="news.feas.title">Feasibility Studies Completed</h3>
+              <p data-i18n="news.feas.body">Comprehensive feasibility studies confirm the technical, commercial and economic viability of the Zambia Lobito Railway.</p>
+            </article>
+          </div>
+          <div class="section-cta">
+            <a href="updates.html" class="btn btn-primary" data-i18n="cta.updates">All Project Updates →</a>
+          </div>
+        </div>
+
+        <!-- Project Partners contributions -->
+        <div class="partners-map" id="partnersMap">
+          <h3 class="partners-map__title" data-i18n="about.partnersTitle">Project Partners &amp; Contributions</h3>
+          <div class="partners-map__inner">
+            <img class="partners-map__bg" src="/assets/img/world.svg?v=2" alt="" aria-hidden="true" loading="lazy" decoding="async">
+            <div class="pmap-pin pmap-pin--eu" style="--x:48.5%;--y:29%" data-side="top">
+              <span class="pmap-dot" aria-hidden="true"></span>
+              <div class="pmap-label">
+                <span class="pmap-flag" aria-hidden="true">🇪🇺</span>
+                <div class="pmap-label__text">
+                  <span class="pmap-name"   data-i18n="pmap.eu.name">European Union</span>
+                  <span class="pmap-amount" data-i18n="pmap.eu.amount">EUR 2M</span>
+                  <span class="pmap-desc"   data-i18n="pmap.eu.desc">Development grant</span>
+                </div>
+              </div>
+            </div>
+            <div class="pmap-pin pmap-pin--italy" style="--x:51%;--y:34%" data-side="right">
+              <span class="pmap-dot" aria-hidden="true"></span>
+              <div class="pmap-label">
+                <span class="pmap-flag" aria-hidden="true">🇮🇹</span>
+                <div class="pmap-label__text">
+                  <span class="pmap-name"   data-i18n="pmap.italy.name">Italy</span>
+                  <span class="pmap-amount" data-i18n="pmap.italy.amount">USD 320M</span>
+                  <span class="pmap-desc"   data-i18n="pmap.italy.desc">Mattei Plan</span>
+                </div>
+              </div>
+            </div>
+            <div class="pmap-pin pmap-pin--afdb" style="--x:45%;--y:52%" data-side="left">
+              <span class="pmap-dot" aria-hidden="true"></span>
+              <div class="pmap-label">
+                <div class="pmap-label__text">
+                  <span class="pmap-name"   data-i18n="pmap.afdb.name">AfDB</span>
+                  <span class="pmap-amount" data-i18n="pmap.afdb.amount">USD 200M</span>
+                  <span class="pmap-desc"   data-i18n="pmap.afdb.desc">Lobito Corridor</span>
+                </div>
+              </div>
+            </div>
+            <div class="pmap-pin pmap-pin--afc" style="--x:48.5%;--y:53%" data-side="right">
+              <span class="pmap-dot" aria-hidden="true"></span>
+              <div class="pmap-label">
+                <div class="pmap-label__text">
+                  <span class="pmap-name"   data-i18n="pmap.afc.name">Africa Finance Corporation</span>
+                  <span class="pmap-amount" data-i18n="pmap.afc.amount">USD 500M</span>
+                  <span class="pmap-desc"   data-i18n="pmap.afc.desc">Lead developer &amp; sponsor</span>
+                </div>
+              </div>
+            </div>
+            <div class="pmap-pin pmap-pin--afccp" style="--x:51%;--y:49%" data-side="top">
+              <span class="pmap-dot" aria-hidden="true"></span>
+              <div class="pmap-label">
+                <div class="pmap-label__text">
+                  <span class="pmap-name"   data-i18n="pmap.afccp.name">AFC Capital Partners</span>
+                  <span class="pmap-amount" data-i18n="pmap.afccp.amount">US$5M</span>
+                  <span class="pmap-desc"   data-i18n="pmap.afccp.desc">Feasibility &amp; development</span>
+                </div>
+              </div>
+            </div>
+            <div class="pmap-pin pmap-pin--angola" style="--x:52%;--y:61%" data-side="left">
+              <span class="pmap-dot" aria-hidden="true"></span>
+              <div class="pmap-label">
+                <span class="pmap-flag" aria-hidden="true">🇦🇴</span>
+                <div class="pmap-label__text">
+                  <span class="pmap-name"   data-i18n="pmap.angola.name">Angola</span>
+                  <span class="pmap-amount" data-i18n="pmap.angola.amount">Concession Agreement</span>
+                  <span class="pmap-desc"   data-i18n="pmap.angola.desc">Host government</span>
+                </div>
+              </div>
+            </div>
+            <div class="pmap-pin pmap-pin--zambia" style="--x:57%;--y:61%" data-side="right">
+              <span class="pmap-dot" aria-hidden="true"></span>
+              <div class="pmap-label">
+                <span class="pmap-flag" aria-hidden="true">🇿🇲</span>
+                <div class="pmap-label__text">
+                  <span class="pmap-name"   data-i18n="pmap.zambia.name">Zambia</span>
+                  <span class="pmap-amount" data-i18n="pmap.zambia.amount">Concession Agreement</span>
+                  <span class="pmap-desc"   data-i18n="pmap.zambia.desc">Host government</span>
+                </div>
+              </div>
+            </div>
+            </div>
+
+          <ul class="partner-cards partners-map__fallback">
+            <li><strong data-i18n="pmap.eu.name">European Union</strong><span data-i18n="partner.eu">EUR 2 million grant funding development activities.</span></li>
+            <li><strong data-i18n="pmap.italy.name">Italy</strong><span data-i18n="partner.italy">USD 320 million capital commitment under the Mattei Plan.</span></li>
+            <li><strong data-i18n="pmap.afdb.name">AfDB</strong><span data-i18n="partner.afdb">USD 200 million loan toward the Lobito Corridor.</span></li>
+            <li><strong data-i18n="pmap.afc.name">Africa Finance Corporation</strong><span data-i18n="partner.afc">USD 500 million committed as lead developer and sponsor.</span></li>
+            <li><strong data-i18n="pmap.afccp.name">AFC Capital Partners</strong><span data-i18n="partner.afccp">US$5 million committed for feasibility and project development.</span></li>
+            <li><strong data-i18n="pmap.angola.name">Angola</strong><span data-i18n="partner.angola">Concession Agreement signed; host government.</span></li>
+            <li><strong data-i18n="pmap.zambia.name">Zambia</strong><span data-i18n="partner.zambia">Concession Agreement signed; host government.</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  
+    <!-- Project stakeholders (white band above the footer) -->
+  <div class="stakeholders-band">
+    <div class="container">
+        <p class="stakeholders-title" data-i18n="about.stakeholders">Project Stakeholders &amp; Advisors</p>
+        <div class="logo-fader" id="logoFader">
+          <ul class="logo-fader__row">
+            <li class="logo-grid__item"><img class="logo-grid__img" src="/assets/img/logos/afc.svg" alt="Africa Finance Corporation" loading="lazy"><span class="logo-grid__name">Africa Finance Corporation</span></li>
+            <li class="logo-grid__item"><img class="logo-grid__img" src="/assets/img/logos/gov-zambia.svg" alt="Government of Zambia" loading="lazy"><span class="logo-grid__name">Government of Zambia</span></li>
+            <li class="logo-grid__item"><img class="logo-grid__img" src="/assets/img/logos/gov-angola.svg" alt="Government of Angola" loading="lazy"><span class="logo-grid__name">Government of Angola</span></li>
+            <li class="logo-grid__item"><img class="logo-grid__img" src="/assets/img/logos/european-union.svg" alt="European Union" loading="lazy"><span class="logo-grid__name">European Union</span></li>
+          </ul>
+          <ul class="logo-fader__row">
+            <li class="logo-grid__item"><img class="logo-grid__img" src="/assets/img/logos/gov-italy.svg" alt="Government of Italy" loading="lazy"><span class="logo-grid__name">Government of Italy</span></li>
+            <li class="logo-grid__item"><img class="logo-grid__img" src="/assets/img/logos/afdb.svg" alt="African Development Bank" loading="lazy"><span class="logo-grid__name">African Development Bank</span></li>
+            <li class="logo-grid__item"><img class="logo-grid__img" src="/assets/img/logos/pwc.svg" alt="PwC" loading="lazy"><span class="logo-grid__name">PwC</span></li>
+          </ul>
+        </div>
+  </div>
+  </div>
+
+  <!-- Brand tag band (white area above the dark footer) -->
+  <div class="site-tag-band">
+    <div class="container">
+      <p class="site-tag-band__text" data-i18n="footer.tag">Safe · Reliable · Efficient · Sustainable</p>
+    </div>
+  </div>
+
+  <footer class="site-footer" id="contact">
+    <div class="container site-footer__top">
+      <p class="site-footer__eyebrow" data-i18n="contact.eyebrow">Contact</p>
+      <h2 class="site-footer__title" data-i18n="contact.title">Get in Touch</h2>
+      <p class="site-footer__lead" data-i18n="contact.lead">For all enquiries regarding the Zambia Lobito Railway Project, please direct your communications to the Africa Finance Corporation.</p>
+
+      <div class="site-footer__grid">
+        <div class="site-footer__methods">
+          <div class="contact-method">
+            <span class="contact-method__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <path d="M3 7 L12 13 L21 7"/>
+              </svg>
+            </span>
+            <div class="contact-method__body">
+              <p class="contact-method__label" data-i18n="contact.general">General Enquiries</p>
+              <p class="contact-method__org">Africa Finance Corporation</p>
+              <a class="contact-method__email" href="mailto:info@zambialobitorail.com">info@zambialobitorail.com</a>
+            </div>
+          </div>
+        </div>
+
+        <form class="site-footer__form" id="footerEnquiryForm" action="/contact.php" method="post" novalidate>
+          <h3 class="site-footer__form-title" data-i18n="con.formH2">Send Us an Enquiry</h3>
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="footerName" data-i18n="con.label.name">Name</label>
+              <input type="text" id="footerName" name="name" data-i18n-placeholder="con.ph.name" placeholder="Your full name" required>
+            </div>
+            <div class="form-row">
+              <label for="footerEmail" data-i18n="con.label.email">Email</label>
+              <input type="email" id="footerEmail" name="email" data-i18n-placeholder="con.ph.email" placeholder="name@company.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="footerOrg" data-i18n="con.label.org">Organisation</label>
+            <input type="text" id="footerOrg" name="organisation" data-i18n-placeholder="con.ph.org" placeholder="Company or organisation">
+          </div>
+          <div class="form-row">
+            <label for="footerMsg" data-i18n="con.label.msg">Message</label>
+            <textarea id="footerMsg" name="message" data-i18n-placeholder="con.ph.msg" placeholder="How can we help?" required></textarea>
+          </div>
+          <div class="hp" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+            <label for="footerWebsite">Website</label>
+            <input type="text" id="footerWebsite" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <button type="submit" class="btn btn-primary site-footer__submit" data-i18n="con.submit">Send Enquiry</button>
+          <div class="form-msg" id="footerFormMsg" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+
+        <div class="site-footer__bottom">
+      <div class="container site-footer__bottom-inner">
+        <div class="footer-brand">
+          <img class="footer-logo-img" src="/assets/img/zlr-logo.png" alt="Zambia Lobito Railway">
+        </div>
+        <nav class="footer-links" aria-label="Policies">
+          <a href="media.html" class="footer-media-btn" data-i18n="footer.media">Media Pack</a>
+          <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
+          <span class="footer-links__sep" aria-hidden="true">·</span>
+          <a href="cookies.html" data-i18n="footer.cookies">Cookies Policy</a>
+        </nav>
+        <p class="footer-copy">© <span id="year"></span> Zambia Lobito Railway. <span data-i18n="footer.rights">All rights reserved.</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ ESIA Modal ============ -->
+  <div class="modal" id="modal-esia" hidden>
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="esiaTitle">
+      <button type="button" class="modal-close" data-modal-close aria-label="Close">×</button>
+      <h3 id="esiaTitle" data-i18n="esia.modalTitle">ESIA Disclosure</h3>
+      <p data-i18n="esia.modal1">
+        The Zambia Lobito Railway project is being developed in line with comprehensive international environmental and social standards. The project adheres to:
+      </p>
+      <ul>
+        <li data-i18n="esia.modal.l1">IFC Performance Standards (Assessment &amp; Management of E&amp;S Risks; Labour &amp; Working Conditions; Resource Efficiency &amp; Pollution Prevention; Community Health, Safety &amp; Security; Land Acquisition &amp; Resettlement; Biodiversity Conservation &amp; Sustainable Management of Living Natural Resources)</li>
+        <li data-i18n="esia.modal.l2">AfDB Integrated Safeguards System</li>
+        <li data-i18n="esia.modal.l3">Equator Principles</li>
+        <li data-i18n="esia.modal.l4">World Bank Group EHS Guidelines</li>
+      </ul>
+      <p data-i18n="esia.modal2">
+        The full ESIA and Resettlement Action Plan (RAP) are being undertaken by <strong>Insuco</strong>. Detailed disclosure documents will be made available here as studies progress (target: March 2026).
+      </p>
+      <p data-i18n="esia.modal3">
+        For specific ESIA-related enquiries, please contact <a href="mailto:info@zambialobitorail.com">info@zambialobitorail.com</a>.
+      </p>
+    </div>
+  </div>
+
+  <script src="/assets/js/i18n.js?v=28"></script>
+  <script src="/assets/js/main.js?v=39"></script>
+
+  <!-- Cookies consent banner -->
+  <div class="cookies-banner" id="cookiesBanner" role="dialog" aria-labelledby="cookiesBannerText" hidden>
+    <div class="cookies-banner__inner">
+      <p class="cookies-banner__text" id="cookiesBannerText" data-i18n="cookies.banner.text">This site uses essential cookies and local storage to remember your language preference. By continuing you agree to our use of cookies.</p>
+      <div class="cookies-banner__actions">
+        <a class="cookies-banner__link" href="cookies.html" data-i18n="cookies.banner.more">Read policy</a>
+        <button type="button" class="cookies-banner__accept" id="cookiesAccept" data-i18n="cookies.banner.accept">Accept</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

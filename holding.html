@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zambia Lobito Railway</title>
+  <meta name="description" content="The Zambia Lobito Railway (ZLR) — a 830km greenfield rail completing the Trans-African corridor. Website launching soon.">
+  <meta name="theme-color" content="#0a1628">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Russo+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy-900: #0a1628;
+      --navy-800: #101e36;
+      --navy-700: #1a2940;
+      --gold:     #fcc00c;
+      --green:    #008e39;
+      --red:      #be1622;
+      --white:    #ffffff;
+      --rounded:  'Nunito', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --display:  'Russo One', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --serif:    'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    *,*::before,*::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body {
+      font-family: var(--serif);
+      color: var(--white);
+      background: var(--navy-900);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .bg {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse at 70% 30%, rgba(252,192,12,.18), transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(0,142,57,.10), transparent 55%),
+        linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 60%, var(--navy-800) 100%);
+    }
+    .bg::after {
+      content: '';
+      position: absolute; left: 0; right: 0; bottom: 18%;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, rgba(252,192,12,.18) 0 14px, transparent 14px 28px);
+    }
+
+    .holding {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+      text-align: center;
+    }
+
+    .logo-block {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+    .logo-img {
+      width: clamp(320px, 60vw, 560px);
+      height: auto;
+      display: block;
+    }
+
+    .tagline {
+      font-family: var(--rounded);
+      font-weight: 700;
+      font-size: .85rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 0 0 14px;
+    }
+
+    .heading {
+      font-family: var(--display);
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+      line-height: 1.2;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      max-width: 720px;
+      margin: 0 0 14px;
+    }
+    .heading .accent { color: var(--gold); }
+
+    .lead {
+      max-width: 560px;
+      margin: 0 auto 40px;
+      color: rgba(255,255,255,.78);
+      font-size: 1.02rem;
+      line-height: 1.6;
+    }
+
+    .form-wrap {
+      width: 100%;
+      max-width: 540px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 8px;
+      padding: 32px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .form-title {
+      font-family: var(--rounded);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin: 0 0 20px;
+      text-align: left;
+    }
+    .form-row { margin-bottom: 16px; text-align: left; }
+    .form-row label {
+      display: block;
+      font-family: var(--rounded);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.6);
+      margin-bottom: 6px;
+    }
+    .form-row input,
+    .form-row textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 4px;
+      color: var(--white);
+      font-family: var(--serif);
+      font-size: .96rem;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .form-row textarea { resize: vertical; min-height: 110px; }
+    .form-row input:focus,
+    .form-row textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(0,0,0,.4);
+    }
+    .form-row input::placeholder,
+    .form-row textarea::placeholder { color: rgba(255,255,255,.35); }
+
+    /* honeypot */
+    .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+    .submit {
+      width: 100%;
+      padding: 14px 24px;
+      background: var(--gold);
+      color: var(--navy-900);
+      border: 0;
+      border-radius: 4px;
+      font-family: var(--rounded);
+      font-weight: 800;
+      font-size: .95rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .2s ease, transform .15s ease;
+    }
+    .submit:hover { background: #ffce2e; transform: translateY(-2px); }
+
+    .form-msg {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 4px;
+      font-size: .9rem;
+      font-family: var(--rounded);
+      font-weight: 600;
+      display: none;
+      text-align: left;
+    }
+    .form-msg.is-success {
+      display: block;
+      background: rgba(0,142,57,.18);
+      border: 1px solid rgba(0,142,57,.5);
+      color: #6cf09a;
+    }
+    .form-msg.is-error {
+      display: block;
+      background: rgba(190,22,34,.18);
+      border: 1px solid rgba(190,22,34,.5);
+      color: #ff8a93;
+    }
+
+    .footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 24px 16px 32px;
+      color: rgba(255,255,255,.45);
+      font-size: .8rem;
+      font-family: var(--rounded);
+      letter-spacing: .04em;
+    }
+    .footer .pipe { color: rgba(255,255,255,.2); margin: 0 8px; }
+    .footer a { color: rgba(255,255,255,.6); text-decoration: none; transition: color .2s ease; }
+    .footer a:hover { color: var(--gold); }
+
+    @media (max-width: 600px) {
+      .form-wrap { padding: 24px 20px; }
+    }
+  </style>
+  <link rel="icon" href="/favicon.ico?v=1" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png?v=1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png?v=1">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png?v=1">
+</head>
+<body>
+
+  <div class="bg" aria-hidden="true"></div>
+
+  <div class="holding-lang" style="position:fixed;top:24px;right:28px;z-index:10;display:flex;align-items:center;gap:6px;font-family:var(--display);font-size:.82rem;letter-spacing:.08em;color:rgba(255,255,255,.5);">
+    <button type="button" class="lang-btn is-active" data-lang="en" aria-pressed="true" style="background:none;border:0;padding:4px 6px;color:var(--gold);font:inherit;cursor:pointer;letter-spacing:.08em;">EN</button>
+    <span style="color:rgba(255,255,255,.3);">/</span>
+    <button type="button" class="lang-btn" data-lang="pt" aria-pressed="false" style="background:none;border:0;padding:4px 6px;color:inherit;font:inherit;cursor:pointer;letter-spacing:.08em;">PT</button>
+  </div>
+
+  <main class="holding">
+    <div class="logo-block">
+      <img class="logo-img" src="assets/img/zlr-logo.png" alt="Zambia Lobito Railway">
+    </div>
+
+    <p class="tagline" data-i18n="hero.eyebrow">Built for Africa. Connecting the World.</p>
+    <h1 class="heading">
+      <span data-i18n="hld.h1.before">Our website is</span> <span class="accent" data-i18n="hld.h1.accent">on track for progress.</span>
+    </h1>
+    <p class="lead" data-i18n="hld.lead">
+      The Zambia Lobito Railway website is launching soon. For project enquiries, tenders or general information, please leave a message and our team will be in touch.
+    </p>
+
+    <form class="form-wrap" id="enquiryForm" action="/contact.php" method="post" novalidate>
+      <p class="form-title" data-i18n="hld.formTitle">Send us an enquiry</p>
+
+      <div class="form-row">
+        <label for="name" data-i18n="con.label.name">Name</label>
+        <input type="text" id="name" name="name" data-i18n-placeholder="con.ph.name" placeholder="Your full name" required>
+      </div>
+
+      <div class="form-row">
+        <label for="email" data-i18n="con.label.email">Email</label>
+        <input type="email" id="email" name="email" data-i18n-placeholder="con.ph.email" placeholder="name@company.com" required>
+      </div>
+
+      <div class="form-row">
+        <label for="organisation" data-i18n="con.label.org">Organisation</label>
+        <input type="text" id="organisation" name="organisation" data-i18n-placeholder="con.ph.org" placeholder="Company or organisation">
+      </div>
+
+      <div class="form-row">
+        <label for="message" data-i18n="con.label.msg">Message</label>
+        <textarea id="message" name="message" data-i18n-placeholder="con.ph.msg" placeholder="How can we help?" required></textarea>
+      </div>
+
+      <!-- Honeypot for bots -->
+      <div class="hp" aria-hidden="true">
+        <label for="website">Website</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button type="submit" class="submit" data-i18n="con.submit">Send Enquiry</button>
+
+      <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year"></span> Zambia Lobito Railway</span>
+    <span class="pipe">·</span>
+    <a href="mailto:info@zambialobitorail.com">info@zambialobitorail.com</a>
+  </footer>
+
+  <script src="assets/js/i18n.js?v=5"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ---- Holding page i18n: lang toggle ----
+    (function () {
+      const T = window.ZLR_TRANSLATIONS || {};
+      const KEY = 'zlr_lang';
+      function applyLang(lang) {
+        if (!T[lang]) return;
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-i18n]').forEach((el) => {
+          const k = el.getAttribute('data-i18n');
+          if (typeof T[lang][k] === 'string') el.innerHTML = T[lang][k];
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+          const k = el.getAttribute('data-i18n-placeholder');
+          if (typeof T[lang][k] === 'string') el.setAttribute('placeholder', T[lang][k]);
+        });
+        document.querySelectorAll('.lang-btn').forEach((b) => {
+          const a = b.dataset.lang === lang;
+          b.classList.toggle('is-active', a);
+          b.style.color = a ? '#fcc00c' : 'rgba(255,255,255,.5)';
+          b.setAttribute('aria-pressed', a ? 'true' : 'false');
+        });
+        try { localStorage.setItem(KEY, lang); } catch (e) {}
+      }
+      let saved = null;
+      try { saved = localStorage.getItem(KEY); } catch (e) {}
+      const initial = (saved && T[saved]) ? saved
+        : ((navigator.language || 'en').toLowerCase().startsWith('pt') ? 'pt' : 'en');
+      document.querySelectorAll('.lang-btn').forEach((b) => {
+        b.addEventListener('click', () => applyLang(b.dataset.lang));
+      });
+      applyLang(initial);
+    })();
+
+    (function () {
+      const form = document.getElementById('enquiryForm');
+      const msg  = document.getElementById('formMsg');
+      if (!form) return;
+
+      function tr(key, fallback) {
+        const lang = document.documentElement.lang || 'en';
+        const T = window.ZLR_TRANSLATIONS || {};
+        const dict = T[lang] || T.en || {};
+        return dict[key] || fallback;
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        msg.className = 'form-msg';
+        msg.textContent = '';
+
+        const data = new FormData(form);
+        // basic validation
+        if (!data.get('name') || !data.get('email') || !data.get('message')) {
+          msg.className = 'form-msg is-error';
+          msg.textContent = tr('con.msg.required', 'Please fill in your name, email and message.');
+          return;
+        }
+
+        const submitBtn = form.querySelector('.submit');
+        const original  = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = tr('con.msg.sending', 'Sending…');
+
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+          });
+          let ok = res.ok;
+          try {
+            const json = await res.json();
+            ok = ok && json && json.ok;
+          } catch (_) { /* ignore non-json */ }
+
+          if (ok) {
+            form.reset();
+            msg.className = 'form-msg is-success';
+            msg.textContent = tr('con.msg.success', 'Thank you — your enquiry has been received. We will be in touch shortly.');
+          } else {
+            msg.className = 'form-msg is-error';
+            msg.textContent = tr('con.msg.error', 'Sorry, something went wrong. Please email info@zambialobitorail.com directly.');
+          }
+        } catch (err) {
+          msg.className = 'form-msg is-error';
+          msg.textContent = tr('con.msg.network', 'Network error. Please email info@zambialobitorail.com directly.');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = original;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
